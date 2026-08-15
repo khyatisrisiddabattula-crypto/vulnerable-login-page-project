@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VULN LOGIN SCANNER — Educational Login Security Analyzer</title>
+<meta name="description" content="An educational, browser-only login page vulnerability analyzer. Simulate security checks, score configurations and learn secure authentication practices." />
+<meta property="og:title" content="VULN LOGIN SCANNER" />
+<meta property="og:description" content="Educational Login Security Analyzer — simulate login page vulnerability checks locally in your browser." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="particles" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#home" aria-label="Vuln Login Scanner home">
+      <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"/><path class="tick" d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+      <span class="brand-name">VULN LOGIN SCANNER</span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="primary-nav" class="nav" aria-label="Primary">
+      <a href="#home">Home</a>
+      <a href="#analyzer">Analyzer</a>
+      <a href="#vulnerabilities">Vulnerabilities</a>
+      <a href="#about">About</a>
+      <span class="status" role="status">● SYSTEM READY</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="home" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="badge">CYBERSECURITY • WEB SECURITY • EDUCATIONAL</span>
+        <h1>Analyze. <span class="grad">Detect.</span> Secure.</h1>
+        <p class="lede">Discover common security weaknesses in login pages through an interactive vulnerability analysis simulator.</p>
+        <p class="sub">Educational Login Security Analyzer</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#analyzer">START ANALYSIS</a>
+          <a class="btn btn-ghost" href="#checklist">LEARN SECURITY</a>
+        </div>
+      </div>
+
+      <div class="hero-card glass" aria-hidden="false">
+        <div class="glow"></div>
+        <svg class="hero-shield" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"/></svg>
+        <h2 class="hero-card-title">Coverage Modules</h2>
+        <ul class="hero-list">
+          <li>Authentication</li>
+          <li>Password Security</li>
+          <li>Input Validation</li>
+          <li>HTTPS</li>
+          <li>Brute Force Protection</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="analyzer" class="section">
+    <div class="container">
+      <h2 class="section-title">Login Page Vulnerability Analyzer</h2>
+      <p class="section-sub">Enter sample login-page configuration details and run a security assessment.</p>
+
+      <form class="card glass analyzer" id="analyzer-form" novalidate>
+        <div class="field field-wide">
+          <label for="url">Login URL</label>
+          <input id="url" name="url" type="text" placeholder="https://example.com/login" autocomplete="off" aria-describedby="url-help" />
+          <small id="url-help">Sample input only — no external site is ever contacted.</small>
+        </div>
+
+        <div class="field">
+          <label for="username">Username Field</label>
+          <select id="username"><option>Present</option><option>Missing</option></select>
+        </div>
+        <div class="field">
+          <label for="password">Password Field</label>
+          <select id="password"><option>Present</option><option>Missing</option></select>
+        </div>
+        <div class="field">
+          <label for="https">HTTPS Protection</label>
+          <select id="https"><option>Enabled</option><option>Disabled</option></select>
+        </div>
+        <div class="field">
+          <label for="strength">Password Strength Validation</label>
+          <select id="strength"><option>Strong</option><option>Weak</option><option>Not Implemented</option></select>
+        </div>
+        <div class="field">
+          <label for="attempts">Login Attempt Protection</label>
+          <select id="attempts"><option>Rate Limited</option><option>Unlimited Attempts</option></select>
+        </div>
+        <div class="field">
+          <label for="errors">Generic Error Messages</label>
+          <select id="errors"><option>Enabled</option><option>Disabled</option></select>
+        </div>
+        <div class="field">
+          <label for="validation">Input Validation</label>
+          <select id="validation"><option>Implemented</option><option>Missing</option></select>
+        </div>
+        <div class="field">
+          <label for="storage">Secure Password Storage</label>
+          <select id="storage"><option>Hashed</option><option>Plaintext / Unknown</option></select>
+        </div>
+
+        <div class="actions field-wide">
+          <button type="submit" class="btn btn-primary btn-lg" id="run-btn">🔍 RUN SECURITY ANALYSIS</button>
+          <button type="button" class="btn btn-ghost" id="demo-btn">TRY DEMO ANALYSIS</button>
+          <button type="button" class="btn btn-ghost" id="reset-btn" hidden>RESET ANALYSIS</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="vulnerabilities" class="section">
+    <div class="container">
+      <h2 class="section-title">Security Assessment Results</h2>
+      <p class="section-sub" id="results-sub">Run an analysis or try the demo to generate a report.</p>
+
+      <div id="results" class="results" aria-live="polite">
+        <div class="dashboard">
+          <div class="card glass score-card">
+            <div class="score-ring" id="score-ring" role="img" aria-label="Security score">
+              <div class="score-inner">
+                <span class="score-value" id="score-value">0</span>
+                <span class="score-max">/100</span>
+              </div>
+            </div>
+            <p class="score-label">Security Score</p>
+          </div>
+          <div class="stat-grid">
+            <div class="card glass stat"><span class="stat-num" id="risk-level">—</span><span class="stat-label">Risk Level</span></div>
+            <div class="card glass stat"><span class="stat-num" id="vuln-count">0</span><span class="stat-label">Vulnerabilities Found</span></div>
+            <div class="card glass stat"><span class="stat-num" id="warn-count">0</span><span class="stat-label">Warnings</span></div>
+            <div class="card glass stat"><span class="stat-num" id="pass-count">0</span><span class="stat-label">Passed Checks</span></div>
+          </div>
+        </div>
+
+        <div class="vuln-grid" id="vuln-grid"></div>
+
+        <div class="table-wrap card glass">
+          <table class="results-table">
+            <thead><tr><th>Check</th><th>Status</th><th>Severity</th><th>Recommendation</th></tr></thead>
+            <tbody id="results-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="checklist" class="section">
+    <div class="container">
+      <h2 class="section-title">Login Security Checklist</h2>
+      <ul class="checklist">
+        <li>Use HTTPS/TLS</li><li>Validate user input</li><li>Use secure password hashing</li>
+        <li>Implement login throttling</li><li>Avoid username enumeration</li><li>Use generic authentication errors</li>
+        <li>Support MFA</li><li>Monitor authentication failures</li><li>Protect sessions</li><li>Use strong password controls</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">What Does This Analyzer Check?</h2>
+      <div class="info-grid">
+        <article class="card glass info"><h3>Authentication</h3><p>Checks basic login configuration.</p></article>
+        <article class="card glass info"><h3>Password Security</h3><p>Checks password-strength and storage configuration.</p></article>
+        <article class="card glass info"><h3>Input Validation</h3><p>Checks whether user input is validated.</p></article>
+        <article class="card glass info"><h3>Transport Security</h3><p>Checks HTTPS/TLS configuration.</p></article>
+        <article class="card glass info"><h3>Brute Force Protection</h3><p>Checks login-attempt protection.</p></article>
+        <article class="card glass info"><h3>Error Handling</h3><p>Checks whether authentication errors reveal excessive information.</p></article>
+      </div>
+
+      <div class="card disclaimer">
+        <h3>Educational Use Only</h3>
+        <p>This project is a frontend security simulation created for cybersecurity learning and demonstration purposes. It does not perform real penetration testing, exploit websites, bypass authentication, or collect credentials.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="container about-grid">
+      <div>
+        <h2 class="section-title left">About This Project</h2>
+        <p class="section-sub left">VULN LOGIN SCANNER is an educational web security project that demonstrates how common login-page security weaknesses can be identified through configuration-based analysis.</p>
+      </div>
+      <div class="card glass about-meta">
+        <p><strong>Project Type:</strong> Cybersecurity Educational Tool</p>
+        <p><strong>Technology:</strong> HTML5 • CSS3 • JavaScript</p>
+        <p><strong>Deployment:</strong> GitHub Pages</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">VULN LOGIN SCANNER</p>
+    <p>Learn cybersecurity. Build securely.</p>
+    <p class="copy">© 2026 Vulnerability Analyzer • Educational Project</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
